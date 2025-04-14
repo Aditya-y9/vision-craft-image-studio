@@ -6,7 +6,7 @@ import { ImageProcessor } from '@/components/ImageProcessor';
 import { ProcessingControls } from '@/components/ProcessingControls';
 import { TheorySection } from '@/components/TheorySection';
 import { ImageComparison } from '@/components/ImageComparison';
-import { ImageData, HistogramData, ProcessingResult } from '@/types';
+import type { ImageData, HistogramData, ProcessingResult } from '@/types'; // Changed to type-only import
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
