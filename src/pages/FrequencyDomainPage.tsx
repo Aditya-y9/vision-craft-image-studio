@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Waves } from 'lucide-react';
@@ -10,7 +9,7 @@ import { TheorySection } from '@/components/TheorySection';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
-import type { ImageData } from '@/types';
+import type { ImageData as CustomImageData } from '@/types';
 import { toast } from 'sonner';
 import { processImageWithTiming, rgbToGrayscale } from '@/utils/imageUtils';
 
@@ -67,8 +66,10 @@ const fft1d = (input: [number, number][]): [number, number][] => {
 };
 
 // Shifted 2D FFT implementation (centered frequency representation)
-const fft2d = (imageData: ImageData): { real: number[][], imag: number[][] } => {
-  const { width, height, data } = imageData;
+const fft2d = (imageData: globalThis.ImageData): { real: number[][], imag: number[][] } => {
+  const width = imageData.width;
+  const height = imageData.height;
+  const imageDataArray = imageData.data;
   
   // Simulate a fast version with a smaller processing area for preview purposes
   const scaleDown = 4; // Process at 1/4 resolution for speed
@@ -83,7 +84,7 @@ const fft2d = (imageData: ImageData): { real: number[][], imag: number[][] } => 
   for (let y = 0; y < h; y++) {
     for (let x = 0; x < w; x++) {
       const srcIdx = ((y * scaleDown) * width + (x * scaleDown)) * 4;
-      const value = data[srcIdx]; // Just use the red channel for simplicity
+      const value = imageDataArray[srcIdx]; // Just use the red channel for simplicity
       const sign = ((x + y) % 2 === 0) ? 1 : -1;
       real[y][x] = value * sign;
       imag[y][x] = 0;
@@ -99,7 +100,7 @@ const fft2d = (imageData: ImageData): { real: number[][], imag: number[][] } => 
 };
 
 // Inverse FFT (simplified)
-const ifft2d = (real: number[][], imag: number[][]) => {
+const ifft2d = (real: number[][], imag: number[][]): globalThis.ImageData => {
   const h = real.length;
   const w = real[0].length;
   
@@ -107,7 +108,7 @@ const ifft2d = (real: number[][], imag: number[][]) => {
   // This is a simplified simulation for educational purposes
   
   // Create output image
-  const output = new ImageData(w * 4, h * 4); // Scale back up
+  const output = new globalThis.ImageData(w * 4, h * 4); // Scale back up
   
   // Fill with placeholder data
   for (let y = 0; y < output.height; y++) {
@@ -135,7 +136,7 @@ const ifft2d = (real: number[][], imag: number[][]) => {
 
 const FrequencyDomainPage = () => {
   const navigate = useNavigate();
-  const [imageData, setImageData] = useState<ImageData | null>(null);
+  const [imageData, setImageData] = useState<CustomImageData | null>(null);
   const [filterType, setFilterType] = useState<string>('lowpass');
   const [cutoffFrequency, setCutoffFrequency] = useState(50);
   
@@ -144,7 +145,7 @@ const FrequencyDomainPage = () => {
     const savedImageData = localStorage.getItem('uploadedImage');
     if (savedImageData) {
       try {
-        const parsedData = JSON.parse(savedImageData) as ImageData;
+        const parsedData = JSON.parse(savedImageData) as CustomImageData;
         setImageData(parsedData);
       } catch (error) {
         console.error('Error parsing saved image data:', error);
@@ -152,7 +153,7 @@ const FrequencyDomainPage = () => {
     }
   }, []);
 
-  const handleImageUpload = (data: ImageData) => {
+  const handleImageUpload = (data: CustomImageData) => {
     setImageData(data);
     localStorage.setItem('uploadedImage', JSON.stringify(data));
   };
@@ -167,9 +168,9 @@ const FrequencyDomainPage = () => {
   };
 
   const applyFrequencyFilter = async (imageUrl: string, type: string) => {
-    return processImageWithTiming(imageUrl, (imageData) => {
+    return processImageWithTiming(imageUrl, (domImageData) => {
       // Convert to grayscale for simplicity
-      const grayImage = rgbToGrayscale(imageData);
+      const grayImage = rgbToGrayscale(domImageData);
       
       // Forward FFT
       const { real, imag } = fft2d(grayImage);
