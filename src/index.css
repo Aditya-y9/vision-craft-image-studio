@@ -1,6 +1,9 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap');
 
 @layer base {
   :root {
@@ -12,90 +15,281 @@
 
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
+    
+    --primary: 262 83% 58%;
     --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
+    
+    --secondary: 260 33% 54%;
+    --secondary-foreground: 210 40% 98%;
+    
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
+    
+    --accent: 262 83% 94%;
     --accent-foreground: 222.2 47.4% 11.2%;
-
+    
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
+    
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
+    --ring: 262 83% 58%;
+    
     --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
-
+ 
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-
+ 
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
-
+ 
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
+ 
+    --primary: 262 83% 58%;
     --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
+ 
+    --secondary: 260 33% 54%;
     --secondary-foreground: 210 40% 98%;
-
+ 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-
+ 
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
-
+ 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-
+ 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --ring: 262 83% 58%;
   }
 }
-
+ 
 @layer base {
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Poppins', sans-serif;
+  }
+  code {
+    font-family: 'Source Code Pro', monospace;
+  }
+}
+
+.image-canvas-container {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #222;
+  border-radius: 0.5rem;
+}
+
+.image-display {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+}
+
+.image-comparison {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.image-comparison > div {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.image-comparison img {
+  width: 100%;
+  max-height: 40vh;
+  object-fit: contain;
+}
+
+.comparison-label {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.processing-time {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin-top: 0.5rem;
+  display: block;
+}
+
+.algorithm-card {
+  @apply border p-4 rounded-lg transition-all duration-300 hover:shadow-md hover:border-primary/50;
+}
+
+.theory-section {
+  @apply mt-4 p-4 bg-accent/30 rounded-lg;
+}
+
+.theory-section h3 {
+  @apply font-semibold text-lg mb-2;
+}
+
+.theory-section p {
+  @apply text-sm leading-relaxed mb-2;
+}
+
+.theory-section code {
+  @apply bg-muted rounded px-1 py-0.5 text-sm;
+}
+
+.theory-section ul {
+  @apply list-disc pl-5 text-sm;
+}
+
+.theory-section ol {
+  @apply list-decimal pl-5 text-sm;
+}
+
+.theory-section li {
+  @apply mb-1;
+}
+
+.math-formula {
+  @apply italic my-2 text-center;
+}
+
+.filter-matrix {
+  @apply font-mono text-xs grid grid-cols-3 gap-1 my-2 w-fit mx-auto;
+}
+
+.filter-matrix-cell {
+  @apply bg-muted/50 text-center p-1 min-w-[30px];
+}
+
+.histogram-canvas {
+  width: 100%;
+  height: 200px;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.processing-parameters {
+  @apply mt-4 border p-4 rounded-lg space-y-3;
+}
+
+.slider-label {
+  @apply flex justify-between text-sm text-muted-foreground;
+}
+
+.slider-value {
+  @apply text-sm font-medium;
+}
+
+.transition-fade {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modified sidebar styles for the DIP application */
+.sidebar {
+  @apply bg-background border-r border-border;
+  width: 260px;
+  min-width: 260px;
+  transition: width 0.3s ease-in-out;
+}
+
+.sidebar.collapsed {
+  width: 70px;
+  min-width: 70px;
+}
+
+.sidebar-header {
+  @apply h-14 flex items-center px-4 border-b;
+}
+
+.sidebar-content {
+  @apply overflow-y-auto;
+  height: calc(100vh - 3.5rem);
+}
+
+.sidebar-trigger {
+  @apply w-10 h-10 rounded-md flex items-center justify-center;
+  @apply hover:bg-accent;
+}
+
+.sidebar-item {
+  @apply text-sm flex items-center gap-3 px-4 py-2 rounded-md my-1 mx-2;
+  @apply hover:bg-accent;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.sidebar-item.active {
+  @apply bg-primary text-primary-foreground;
+}
+
+.sidebar-item-text {
+  @apply whitespace-nowrap overflow-hidden transition-opacity;
+}
+
+.sidebar-collapsed .sidebar-item-text {
+  @apply opacity-0;
+}
+
+.sidebar-section-title {
+  @apply text-xs uppercase font-medium text-muted-foreground px-4 pt-4 pb-2;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .sidebar-overlay {
+    @apply fixed inset-0 bg-background/80 backdrop-blur-sm z-40;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .sidebar-overlay.active {
+    opacity: 1;
+    pointer-events: all;
   }
 }
