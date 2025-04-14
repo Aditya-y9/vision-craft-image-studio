@@ -100,5 +100,3 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, cla
     </div>
   );
 };
-
-<lov-add-dependency>react-dropzone@latest</lov-add-dependency>

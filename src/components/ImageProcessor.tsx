@@ -166,7 +166,7 @@ export const ImageProcessor: React.FC<ImageProcessorProps> = ({
       <div className="mt-4">
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child)) {
-            return React.cloneElement(child, {
+            return React.cloneElement(child as React.ReactElement<any>, {
               imageUrl: imageData.original,
               onProcessingComplete: handleProcessedImage,
             });
