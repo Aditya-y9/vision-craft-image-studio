@@ -47,7 +47,7 @@ export const ProcessingControls: React.FC<ProcessingControlsProps> = ({
   };
   
   return (
-    <div className="algorithm-card mb-4 p-4 border rounded-lg bg-card/40">
+    <div className="algorithm-card">
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
           <h3 className="font-medium text-lg flex items-center gap-2">
@@ -58,13 +58,13 @@ export const ProcessingControls: React.FC<ProcessingControlsProps> = ({
           
           {/* Processing parameters form */}
           {children && (
-            <div className="processing-parameters mt-3 mb-2">
+            <div className="processing-parameters">
               {children}
             </div>
           )}
           
           {processingTime !== null && (
-            <span className="processing-time text-xs text-muted-foreground block mt-2">
+            <span className="processing-time">
               Processing completed in {processingTime.toFixed(2)} ms
             </span>
           )}
